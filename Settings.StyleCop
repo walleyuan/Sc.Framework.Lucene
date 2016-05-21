@@ -1,0 +1,31 @@
+<StyleCopSettings Version="105">
+   <GlobalSettings>
+    <CollectionProperty Name="RecognizedWords">
+      <Value>opcode</Value>
+      <Value>parameterless</Value>
+      <Value>Stind</Value>
+      <Value>sitecore</Value>
+	  <Value>api</Value>
+	  <Value>mvc</Value>
+	  <Value>nav</Value>
+	  <Value>uCommerce</Value>
+	  <Value>ui</Value>
+	  <Value>autofac</Value>
+    </CollectionProperty>
+  </GlobalSettings>
+  <Analyzers>
+    <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+      <AnalyzerSettings>
+        <StringProperty Name="CompanyName">ZHEN YUAN</StringProperty>
+        <StringProperty Name="Copyright">Copyright (c) ZHEN All rights reserved.</StringProperty>
+      </AnalyzerSettings>
+	  <Rules>
+		<Rule Name="ElementMustBeginWithUpperCaseLetter">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+	  </Rules>
+    </Analyzer>
+  </Analyzers>
+</StyleCopSettings>
