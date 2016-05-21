@@ -13,29 +13,26 @@ Install-Package Sc.Framework.Lucene
 
 ## How to use
 1. Create resultItem by inheriting from SearchResultItem
-
-```
-    public class EventsResultItem : SearchResultItem
-    {
-        [IndexField("Title")]
-        public string Title { get; set; }
-    }
-```
+    ```
+        public class EventsResultItem : SearchResultItem
+        {
+            [IndexField("Title")]
+            public string Title { get; set; }
+        }
+    ```
 
 2. Create search interface and inherits from IBeaseSearchService
-
-```  
-    public interface IEventsSearchService : IBaseSearchService<EventsResultItem>
-    {
-        //custom functions
-    }
-```
+    ```  
+        public interface IEventsSearchService : IBaseSearchService<EventsResultItem>
+        {
+            //custom functions
+        }
+    ```
 
 3. Create service service 
-
-```
-     public class ClaimSearchService : BaseSearchService<EventsResultItem>, IEventsSearchService
-    {
-        public override ISearchIndex Index => ContentSearchManager.GetIndex(Settings.GetSetting("EventsIndexName"));
-    }
-```
+    ```
+         public class ClaimSearchService : BaseSearchService<EventsResultItem>, IEventsSearchService
+        {
+            public override ISearchIndex Index => ContentSearchManager.GetIndex(Settings.GetSetting("EventsIndexName"));
+        }
+    ```
