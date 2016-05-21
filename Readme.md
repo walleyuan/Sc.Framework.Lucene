@@ -30,6 +30,7 @@ Install-Package Sc.Framework.Lucene
     ```
 
 3. Create service service 
+
     ```
          public class ClaimSearchService : BaseSearchService<EventsResultItem>, IEventsSearchService
         {

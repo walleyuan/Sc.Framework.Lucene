@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" ?>
+<package>
+    <metadata>
+        <id>Sc.Framework.Lucene</id>
+        <version>1.0.3</version>
+        <authors>Zhen Yuan</authors>
+        <owners>Zhen Yuan</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The intension of Sc.Framework.Lucene project is to build a generic search function for Sitecore projects.</description>
+        <releaseNotes></releaseNotes>
+        <copyright>Copyright (c) ZHEN All rights reserved.</copyright>
+        <tags>Sitecore 7.2+, Search, Lucence</tags>
+    </metadata>
+
+    <files>
+        <file src="..\bin\Release451\Sc.Framework.Lucene.dll" target="lib\NET451" />
+        <file src="..\bin\Release451\Sitecore.ContentSearch.dll" target="lib\NET451" />
+        <file src="..\bin\Release451\Sitecore.ContentSearch.Linq.dll" target="lib\NET451" />
+        <file src="..\bin\Release451\Sitecore.ContentSearch.Linq.Lucene.dll" target="lib\NET451" />
+        <file src="..\bin\Release451\Sitecore.ContentSearch.LuceneProvider.dll" target="lib\NET451" />
+        <file src="..\bin\Release452\Sc.Framework.Lucene.dll" target="lib\NET452" />
+        <file src="..\bin\Release452\Sitecore.ContentSearch.dll" target="lib\NET452" />
+        <file src="..\bin\Release452\Sitecore.ContentSearch.Linq.dll" target="lib\NET452" />
+        <file src="..\bin\Release452\Sitecore.ContentSearch.Linq.Lucene.dll" target="lib\NET452" />
+        <file src="..\bin\Release452\Sitecore.ContentSearch.LuceneProvider.dll" target="lib\NET452" />
+        <file src="..\..\..\readme.md" target="" />
+    </files>
+</package>
