@@ -97,9 +97,7 @@
     <Compile Include="ResultItems\EventsResultItem.cs" />
     <Compile Include="Services\BaseSearchService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ComputedFields\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

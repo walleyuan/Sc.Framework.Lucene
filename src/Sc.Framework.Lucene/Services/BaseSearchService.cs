@@ -145,13 +145,14 @@ namespace Sc.Framework.Lucene.Services
             int page,
             int perPage)
         {
-            var skipNumber = page == 1 ? 0 : (page - 1) * perPage;
+            using (var context = this.Index.CreateSearchContext())
+            {
+                var allResults = context.GetQueryable<T>().Where(filter).GetResults();
 
-            var response = this.Search(filter);
+                var response = new GenericSearchResponse<T>(allResults, page, perPage);
 
-            response.Results = response.Results.Skip(skipNumber).Take(perPage).ToList();
-
-            return response;
+                return response;
+            }
         }
 
         /// <summary>
@@ -182,13 +183,14 @@ namespace Sc.Framework.Lucene.Services
             SortOrder orderBy,
             string propertyName)
         {
-            var skipNumber = page == 1 ? 0 : (page - 1) * perPage;
+            using (var context = this.Index.CreateSearchContext())
+            {
+                var allResults = context.GetQueryable<T>().Where(filter).GetResults();
 
-            var response = this.Search(filter);
+                var response = new GenericSearchResponse<T>(allResults, page, perPage, orderBy, propertyName);
 
-            response.Results = response.Results.SortBy(orderBy, propertyName).Skip(skipNumber).Take(perPage).ToList();
-
-            return response;
+                return response;
+            }
         }
     }
 }
