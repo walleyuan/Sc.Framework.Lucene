@@ -55,22 +55,25 @@ namespace Sc.Framework.Lucene.Interfaces
         /// <summary>
         /// Gets specified items by property name on specified page.
         /// </summary>
-        /// <param name="orderBy">
-        /// The order by.
-        /// </param>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
         /// <param name="page">
         /// The page.
         /// </param>
         /// <param name="perPage">
         /// The per page.
         /// </param>
+        /// <param name="expr">
+        /// The expression.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of source.
+        /// </typeparam>
+        /// <typeparam name="TKey">
+        /// The property of the source.
+        /// </typeparam>
         /// <returns>
         /// The search response.
         /// </returns>
-        GenericSearchResponse<T> All(SortOrder orderBy, string propertyName, int page, int perPage);
+        GenericSearchResponse<T> All<T, TKey>(int page, int perPage, Expression<Func<T, TKey>> expr);
 
         /// <summary>
         /// Gets specified items by expression.
@@ -104,7 +107,7 @@ namespace Sc.Framework.Lucene.Interfaces
             int perPage);
 
         /// <summary>
-        /// Gets specified items by expression on specified page with a specific order.
+        /// The search.
         /// </summary>
         /// <param name="filter">
         /// The filter.
@@ -115,20 +118,22 @@ namespace Sc.Framework.Lucene.Interfaces
         /// <param name="perPage">
         /// The per page.
         /// </param>
-        /// <param name="orderBy">
-        /// The order by.
+        /// <param name="expr">
+        /// The expr.
         /// </param>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
+        /// <typeparam name="T">
+        /// The type of source.
+        /// </typeparam>
+        /// <typeparam name="TKey">
+        /// The property of the source.
+        /// </typeparam>
         /// <returns>
-        /// The search response.
+        /// The <see cref="GenericSearchResponse"/>.
         /// </returns>
-        GenericSearchResponse<T> Search(
-            Expression<Func<T, bool>> filter, 
-            int page, 
-            int perPage, 
-            SortOrder orderBy, 
-            string propertyName);
+        GenericSearchResponse<T> Search<T, TKey>(
+            Expression<Func<T, bool>> filter,
+            int page,
+            int perPage,
+            Expression<Func<T, TKey>> expr);
     }
 }

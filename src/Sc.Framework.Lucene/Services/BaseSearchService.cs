@@ -10,14 +10,10 @@
 namespace Sc.Framework.Lucene.Services
 {
     using System;
-    using System.Data.SqlClient;
     using System.Linq;
     using System.Linq.Expressions;
-
-    using Extensions;
     using Interfaces;
     using Models;
-
     using Sitecore.ContentSearch;
     using Sitecore.ContentSearch.Linq;
 
@@ -44,9 +40,11 @@ namespace Sc.Framework.Lucene.Services
         {
             using (var context = this.Index.CreateSearchContext())
             {
-                var allResults = context.GetQueryable<T>().GetResults();
+                IQueryable<T> allResults = null;
 
-                var response = new GenericSearchResponse<T>(allResults);
+                allResults = context.GetQueryable<T>();
+
+                var response = new GenericSearchResponse<T>(allResults.GetResults());
 
                 return response;
             }
@@ -66,42 +64,49 @@ namespace Sc.Framework.Lucene.Services
         /// </returns>
         public virtual GenericSearchResponse<T> All(int page, int perPage)
         {
-            var skipNumber = page == 1 ? 0 : (perPage - 1) * perPage;
+            using (var context = this.Index.CreateSearchContext())
+            {
+                IQueryable<T> allResults = null;
 
-            var response = this.All();
+                allResults = context.GetQueryable<T>().Page(page, perPage);
 
-            response.Results = response.Results.Skip(skipNumber).Take(perPage).ToList();
+                var response = new GenericSearchResponse<T>(allResults.GetResults());
 
-            return response;
+                return response;
+            }
         }
 
         /// <summary>
-        /// Gets specified items by property name on specified page.
+        /// The all.
         /// </summary>
-        /// <param name="orderBy">
-        /// The order by.
-        /// </param>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
         /// <param name="page">
         /// The page.
         /// </param>
         /// <param name="perPage">
         /// The per page.
         /// </param>
+        /// <param name="expr">
+        /// The expr.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <typeparam name="TKey">
+        /// </typeparam>
         /// <returns>
-        /// The search response.
+        /// The <see cref="GenericSearchResponse"/>.
         /// </returns>
-        public virtual GenericSearchResponse<T> All(SortOrder orderBy, string propertyName, int page, int perPage)
+        public GenericSearchResponse<T> All<T, TKey>(int page, int perPage, Expression<Func<T, TKey>> expr)
         {
-            var skipNumber = page == 1 ? 0 : (perPage - 1) * perPage;
+            using (var context = this.Index.CreateSearchContext())
+            {
+                IQueryable<T> allResults = null;
 
-            var response = this.All();
+                allResults = context.GetQueryable<T>().OrderBy(expr).Page(page, perPage);
 
-            response.Results = response.Results.SortBy(orderBy, propertyName).Skip(skipNumber).Take(perPage).ToList();
+                var response = new GenericSearchResponse<T>(allResults.GetResults());
 
-            return response;
+                return response;
+            }
         }
 
         /// <summary>
@@ -117,9 +122,11 @@ namespace Sc.Framework.Lucene.Services
         {
             using (var context = this.Index.CreateSearchContext())
             {
-                var allResults = context.GetQueryable<T>().Where(filter).GetResults();
+                IQueryable<T> allResults = null;
 
-                var response = new GenericSearchResponse<T>(allResults);
+                allResults = context.GetQueryable<T>().Where(filter);
+
+                var response = new GenericSearchResponse<T>(allResults.GetResults());
 
                 return response;
             }
@@ -147,16 +154,18 @@ namespace Sc.Framework.Lucene.Services
         {
             using (var context = this.Index.CreateSearchContext())
             {
-                var allResults = context.GetQueryable<T>().Where(filter).GetResults();
+                IQueryable<T> allResults = null;
 
-                var response = new GenericSearchResponse<T>(allResults, page, perPage);
+                allResults = context.GetQueryable<T>().Where(filter).Page(page, perPage);
+
+                var response = new GenericSearchResponse<T>(allResults.GetResults());
 
                 return response;
             }
         }
 
         /// <summary>
-        /// Gets specified items by expression on specified page with a specific order.
+        /// The search.
         /// </summary>
         /// <param name="filter">
         /// The filter.
@@ -167,27 +176,29 @@ namespace Sc.Framework.Lucene.Services
         /// <param name="perPage">
         /// The per page.
         /// </param>
-        /// <param name="orderBy">
-        /// The order by.
+        /// <param name="expr">
+        /// The expr.
         /// </param>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <typeparam name="TKey">
+        /// </typeparam>
         /// <returns>
-        /// The search response.
+        /// The <see cref="GenericSearchResponse"/>.
         /// </returns>
-        public virtual GenericSearchResponse<T> Search(
+        public virtual GenericSearchResponse<T> Search<T, TKey>(
             Expression<Func<T, bool>> filter,
             int page,
             int perPage,
-            SortOrder orderBy,
-            string propertyName)
+            Expression<Func<T, TKey>> expr)
         {
             using (var context = this.Index.CreateSearchContext())
             {
-                var allResults = context.GetQueryable<T>().Where(filter).GetResults();
+                IQueryable<T> allResults = null;
 
-                var response = new GenericSearchResponse<T>(allResults, page, perPage, orderBy, propertyName);
+                allResults = context.GetQueryable<T>().Where(filter).OrderBy(expr).Page(page, perPage);
+
+                var response = new GenericSearchResponse<T>(allResults.GetResults());
 
                 return response;
             }
