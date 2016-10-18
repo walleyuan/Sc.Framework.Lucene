@@ -94,11 +94,11 @@
     <Compile Include="Interfaces\IBaseSearchService.cs" />
     <Compile Include="Models\GenericSearchResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultItems\EventsResultItem.cs" />
     <Compile Include="Services\BaseSearchService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ComputedFields\" />
+    <Folder Include="ResultItems\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

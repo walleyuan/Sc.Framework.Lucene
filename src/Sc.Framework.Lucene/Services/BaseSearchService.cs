@@ -10,6 +10,7 @@
 namespace Sc.Framework.Lucene.Services
 {
     using System;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Linq.Expressions;
     using Interfaces;
@@ -85,23 +86,32 @@ namespace Sc.Framework.Lucene.Services
         /// <param name="perPage">
         /// The per page.
         /// </param>
-        /// <param name="expr">
-        /// The expr.
+        /// <param name="orderType">
+        /// The order By.
+        /// </param>
+        /// <param name="sortExpression">
+        /// The sort expression.
         /// </param>
         /// <typeparam name="T">
+        /// The type of source.
         /// </typeparam>
         /// <typeparam name="TKey">
+        /// The property of the source.
         /// </typeparam>
         /// <returns>
-        /// The <see cref="GenericSearchResponse"/>.
+        /// The search results response.
         /// </returns>
-        public GenericSearchResponse<T> All<T, TKey>(int page, int perPage, Expression<Func<T, TKey>> expr)
+        public GenericSearchResponse<T> All<T, TKey>(int page, int perPage, SortOrder orderType, Expression<Func<T, TKey>> sortExpression)
         {
             using (var context = this.Index.CreateSearchContext())
             {
                 IQueryable<T> allResults = null;
 
-                allResults = context.GetQueryable<T>().OrderBy(expr).Page(page, perPage);
+                allResults = orderType == SortOrder.Descending
+                                ? context.GetQueryable<T>()
+                                      .OrderByDescending(sortExpression)
+                                      .Page(page, perPage)
+                                : context.GetQueryable<T>().OrderBy(sortExpression).Page(page, perPage);
 
                 var response = new GenericSearchResponse<T>(allResults.GetResults());
 
@@ -176,27 +186,38 @@ namespace Sc.Framework.Lucene.Services
         /// <param name="perPage">
         /// The per page.
         /// </param>
-        /// <param name="expr">
-        /// The expr.
+        /// <param name="orderType">
+        /// The ordering type.
+        /// </param>
+        /// <param name="sortExpression">
+        /// The sort expression.
         /// </param>
         /// <typeparam name="T">
+        /// The type of source.
         /// </typeparam>
         /// <typeparam name="TKey">
+        /// The property of the source.
         /// </typeparam>
         /// <returns>
-        /// The <see cref="GenericSearchResponse"/>.
+        /// The search results response.
         /// </returns>
         public virtual GenericSearchResponse<T> Search<T, TKey>(
             Expression<Func<T, bool>> filter,
             int page,
             int perPage,
-            Expression<Func<T, TKey>> expr)
+            SortOrder orderType,
+            Expression<Func<T, TKey>> sortExpression)
         {
             using (var context = this.Index.CreateSearchContext())
             {
                 IQueryable<T> allResults = null;
 
-                allResults = context.GetQueryable<T>().Where(filter).OrderBy(expr).Page(page, perPage);
+                allResults = orderType == SortOrder.Descending
+                                 ? context.GetQueryable<T>()
+                                       .Where(filter)
+                                       .OrderByDescending(sortExpression)
+                                       .Page(page, perPage)
+                                 : context.GetQueryable<T>().Where(filter).OrderBy(sortExpression).Page(page, perPage);
 
                 var response = new GenericSearchResponse<T>(allResults.GetResults());
 

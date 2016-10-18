@@ -61,7 +61,10 @@ namespace Sc.Framework.Lucene.Interfaces
         /// <param name="perPage">
         /// The per page.
         /// </param>
-        /// <param name="expr">
+        /// <param name="orderType">
+        /// The ordering type.
+        /// </param>
+        /// <param name="sortExpression">
         /// The expression.
         /// </param>
         /// <typeparam name="T">
@@ -73,7 +76,7 @@ namespace Sc.Framework.Lucene.Interfaces
         /// <returns>
         /// The search response.
         /// </returns>
-        GenericSearchResponse<T> All<T, TKey>(int page, int perPage, Expression<Func<T, TKey>> expr);
+        GenericSearchResponse<T> All<T, TKey>(int page, int perPage, SortOrder orderType, Expression<Func<T, TKey>> sortExpression);
 
         /// <summary>
         /// Gets specified items by expression.
@@ -118,8 +121,11 @@ namespace Sc.Framework.Lucene.Interfaces
         /// <param name="perPage">
         /// The per page.
         /// </param>
-        /// <param name="expr">
-        /// The expr.
+        /// <param name="orderType">
+        /// The ordering type.
+        /// </param>
+        /// <param name="sortExpression">
+        /// The expression.
         /// </param>
         /// <typeparam name="T">
         /// The type of source.
@@ -128,12 +134,13 @@ namespace Sc.Framework.Lucene.Interfaces
         /// The property of the source.
         /// </typeparam>
         /// <returns>
-        /// The <see cref="GenericSearchResponse"/>.
+        /// The search results response.
         /// </returns>
         GenericSearchResponse<T> Search<T, TKey>(
             Expression<Func<T, bool>> filter,
             int page,
             int perPage,
-            Expression<Func<T, TKey>> expr);
+            SortOrder orderType,
+            Expression<Func<T, TKey>> sortExpression);
     }
 }
