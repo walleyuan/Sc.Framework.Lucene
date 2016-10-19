@@ -108,10 +108,8 @@ namespace Sc.Framework.Lucene.Services
                 IQueryable<T> allResults = null;
 
                 allResults = orderType == SortOrder.Descending
-                                ? context.GetQueryable<T>()
-                                      .OrderByDescending(sortExpression)
-                                      .Page(page, perPage)
-                                : context.GetQueryable<T>().OrderBy(sortExpression).Page(page - 1, perPage);
+                                 ? context.GetQueryable<T>().OrderByDescending(sortExpression).Page(page - 1, perPage)
+                                 : context.GetQueryable<T>().OrderBy(sortExpression).Page(page - 1, perPage);
 
                 var response = new GenericSearchResponse<T>(allResults.GetResults());
 
@@ -216,8 +214,11 @@ namespace Sc.Framework.Lucene.Services
                                  ? context.GetQueryable<T>()
                                        .Where(filter)
                                        .OrderByDescending(sortExpression)
-                                       .Page(page, perPage)
-                                 : context.GetQueryable<T>().Where(filter).OrderBy(sortExpression).Page(page - 1, perPage);
+                                       .Page(page - 1, perPage)
+                                 : context.GetQueryable<T>()
+                                       .Where(filter)
+                                       .OrderBy(sortExpression)
+                                       .Page(page - 1, perPage);
 
                 var response = new GenericSearchResponse<T>(allResults.GetResults());
 
